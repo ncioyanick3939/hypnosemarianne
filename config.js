@@ -24,6 +24,9 @@ var CONFIG = {
   sessionPrice:    "CHF 125.-",   // z. B. "CHF 150 pro Sitzung"
   cancellation:    "",   // z. B. "Kostenlose Absage bis 24 Stunden vorher"
 
+  // Link zum OneDoc-Profil von Marianne (leer = Button zeigt "Link folgt")
+  onedocUrl: "",
+
   // Link zum Kundenkonto der Buchungsplattform (leer = kein Link im Footer)
   loginUrl: "",
 

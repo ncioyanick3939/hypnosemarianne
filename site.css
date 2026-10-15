@@ -254,3 +254,7 @@ h1 em{color:#5f6e5a}
 .slot{padding:10px 16px;border-radius:999px;border:1px solid #7B8975;background:#fff;color:#263D34;font:inherit;cursor:pointer;min-height:44px}
 .slot.sel,.slot:hover{background:#263D34;color:#fff}
 .cal-day:focus-visible,.slot:focus-visible,.cal-nav:focus-visible{outline:3px solid #7B8975;outline-offset:2px}
+
+.onedoc{display:flex;flex-wrap:wrap;align-items:center;gap:16px 24px;background:#fff;border:1px solid #d9dccf;border-radius:16px;padding:16px 24px;margin-bottom:32px}
+.onedoc img{height:33px;width:auto}.onedoc p{margin:0;flex:1 1 220px}
+.onedoc a[aria-disabled=true]{pointer-events:none;opacity:.55}
