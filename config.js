@@ -11,5 +11,7 @@ var CONFIG = {
   email:    "marianne.kaeser@bluewin.ch",
   // Adresse, an die Terminanfragen gesendet werden, z. B. https://formsubmit.co/marianne.kaeser@bluewin.ch
   // Leer = Testmodus, es wird nichts versendet.
+  // Foto von Marianne: Datei in den Ordner legen und den Namen eintragen, z. B. "marianne.jpg". Leer = Sonnen-Bild.
+  portrait: "",
   formAction: ""
 };

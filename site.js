@@ -8,7 +8,7 @@
   document.querySelectorAll('[data-phone]').forEach(function(a){ a.textContent = C.phone; a.href = 'tel:' + C.phone.replace(/[^\d+]/g, '').replace(/^0/, '+41'); });
   document.querySelectorAll('[data-email]').forEach(function(a){ a.textContent = C.email; a.href = 'mailto:' + C.email; });
   var por = document.querySelector('[data-portrait]');
-  if (por && C.portrait) { por.querySelector('img').src = C.portrait; por.hidden = false; }
+  if (por && C.portrait) { por.innerHTML = '<img src="' + C.portrait + '" alt="' + C.person + '" width="300" height="360">'; }
 
   var b = document.body, open = document.querySelector('.menu-btn'), nav = document.getElementById('menue');
   function setMenu(v){ b.classList.toggle('menu-open', v); open.setAttribute('aria-expanded', v ? 'true' : 'false'); }

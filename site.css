@@ -162,3 +162,11 @@ footer .links{display:flex;gap:24px}
 .book form .hint{color:var(--ink-soft)}
 .book form .status.bad{color:var(--clay-dark)}
 @media (max-width:960px){.brand small{letter-spacing:.09em;font-size:10px}}
+
+.banner-wrap{line-height:0;overflow:hidden;background:#f6e3bd}
+.banner{display:block;width:100%;height:clamp(150px,22vw,260px)}
+.portrait svg{display:block;width:100%;height:auto}
+.book{position:relative;overflow:hidden}
+.book .evening{position:absolute;right:-80px;bottom:-120px;width:520px;height:520px;pointer-events:none}
+.book .wrap{position:relative}
+@media (max-width:960px){.book .evening{width:360px;height:360px;right:-100px;bottom:-90px}}
