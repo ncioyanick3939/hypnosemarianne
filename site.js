@@ -16,7 +16,6 @@
       live.classList.remove('hide'); soon.classList.add('hide');
     }
   }
-  var od = document.getElementById('onedoc-link'); if (od && C.onedocUrl) { od.href = C.onedocUrl; od.textContent = 'Bei OneDoc buchen'; od.removeAttribute('aria-disabled'); }
   document.querySelectorAll('[data-login]').forEach(function(a){ if (C.loginUrl) { a.href = C.loginUrl; a.hidden = false; } });
   var por = document.querySelector('[data-portrait]');
   if (por && C.portrait) { por.innerHTML = '<img src="' + C.portrait + '" alt="' + C.person + '" width="261" height="333">'; }
