@@ -29,6 +29,9 @@
       S.settings = must(r[0]); S.customers = must(r[1]) || []; S.appts = must(r[2]) || []; S.invoices = must(r[3]) || [];
     });
   }
+  function svcs() { return (S.settings && S.settings.services) || []; }
+  function svc(id) { return svcs().filter(function (s) { return s.id === id; })[0]; }
+  function svcName(id) { var s = svc(id); return s ? s.name : ''; }
   function cust(id) { return S.customers.filter(function (c) { return c.id === id; })[0]; }
   function cName(c) { return c ? (c.first_name + ' ' + c.last_name).trim() || '(ohne Namen)' : ''; }
   function apName(a) { return a.customer_id ? cName(cust(a.customer_id)) : a.guest_name; }
@@ -48,8 +51,29 @@
       $('#l-pw').value = ''; start();
     });
   });
+  $('#l-forgot').addEventListener('click', function (e) {
+    e.preventDefault(); var st = $('#l-status'), mail = $('#l-mail').value.trim();
+    if (!mail) { st.textContent = 'Bitte oben die E-Mail eintragen, dann nochmals klicken.'; return; }
+    sb.auth.resetPasswordForEmail(mail, { redirectTo: location.origin + location.pathname }).then(function (r) {
+      st.style.color = r.error ? '' : '#1f4a2b';
+      st.textContent = r.error ? 'Das hat nicht geklappt: ' + r.error.message : 'Falls die Adresse bekannt ist, kommt gleich eine E-Mail mit einem Link.';
+    });
+  });
+  function showNewPw() {
+    $('#login').hidden = true; $('#app').hidden = true; $('#newpw').hidden = false;
+  }
+  $('#newpw-form').addEventListener('submit', function (e) {
+    e.preventDefault(); var st = $('#np-status'), p1 = $('#np-1').value;
+    if (p1.length < 10) { st.textContent = 'Bitte mindestens 10 Zeichen verwenden.'; return; }
+    if (p1 !== $('#np-2').value) { st.textContent = 'Die beiden Passwörter sind nicht gleich.'; return; }
+    sb.auth.updateUser({ password: p1 }).then(function (r) {
+      if (r.error) { st.textContent = r.error.message; return; }
+      $('#newpw').hidden = true; history.replaceState(null, '', location.pathname); start(); toast('Neues Passwort gespeichert.');
+    });
+  });
+  if (sb.auth.onAuthStateChange) sb.auth.onAuthStateChange(function (ev) { if (ev === 'PASSWORD_RECOVERY') showNewPw(); });
   $('#logout').addEventListener('click', function () { sb.auth.signOut().then(function () { S = { settings: null, customers: [], appts: [], invoices: [] }; showLogin(); }); });
-  sb.auth.getSession().then(function (r) { if (r.data && r.data.session) start(); else showLogin(); });
+  sb.auth.getSession().then(function (r) { if ($('#newpw').hidden === false) return; if (r.data && r.data.session) start(); else showLogin(); });
 
   // ---------- Router ----------
   var VIEWS = { termine: vTermine, kunden: vKunden, rechnungen: vRechnungen, einstellungen: vEinst };
@@ -89,7 +113,7 @@
       if (!a.customer_id) act += '<button class="btn small ghost" data-a="link" data-id="' + a.id + '">Als Kunde speichern</button>';
       if (a.status !== 'abgesagt') act += '<button class="btn small ghost" data-a="invoice" data-id="' + a.id + '">Rechnung</button>';
       if (a.status !== 'abgesagt' && a.status !== 'erledigt') act += '<button class="btn small danger" data-a="cancel" data-id="' + a.id + '">Absagen</button>';
-      return '<tr><td><strong>' + esc(fDate(a.starts_at)) + '</strong><br>' + esc(fTime(a.starts_at)) + ' Uhr</td><td>' + esc(apName(a)) + (a.customer_id ? '' : ' <span class="hint">(Gast)</span>') + '<br><span class="hint">' + esc(apMail(a)) + (apPhone(a) ? ' · ' + esc(apPhone(a)) : '') + '</span></td><td>' + esc(a.topic) + (a.note ? '<br><span class="hint">' + esc(a.note) + '</span>' : '') + '</td><td><span class="badge ' + a.status + '">' + STAT[a.status] + '</span></td><td><div class="act">' + act + '</div></td></tr>';
+      return '<tr><td><strong>' + esc(fDate(a.starts_at)) + '</strong><br>' + esc(fTime(a.starts_at)) + ' Uhr</td><td>' + esc(apName(a)) + (a.customer_id ? '' : ' <span class="hint">(Gast)</span>') + '<br><span class="hint">' + esc(apMail(a)) + (apPhone(a) ? ' · ' + esc(apPhone(a)) : '') + '</span></td><td>' + (a.service ? '<strong>' + esc(svcName(a.service) || a.service) + '</strong><br>' : '') + esc(a.topic) + (a.note ? '<br><span class="hint">' + esc(a.note) + '</span>' : '') + '</td><td><span class="badge ' + a.status + '">' + STAT[a.status] + '</span></td><td><div class="act">' + act + '</div></td></tr>';
     }).join('') || '<tr><td colspan="5" class="hint">Keine Termine in dieser Ansicht.</td></tr>';
     $('#view').innerHTML =
       '<div class="cards"><div class="card"><div class="hint">Neue Anfragen</div><div class="num">' + open + '</div></div>' +
@@ -98,7 +122,7 @@
       '<div class="toolbar"><h2 style="margin:0">Termine</h2><div class="sp"></div><select id="apf" style="width:auto" aria-label="Ansicht">' +
       [['anstehend', 'Anstehend'], ['anfragen', 'Anfragen'], ['vergangen', 'Vergangen'], ['abgesagt', 'Abgesagt']].map(function (o) { return '<option value="' + o[0] + '"' + (o[0] === apFilter ? ' selected' : '') + '>' + o[1] + '</option>'; }).join('') +
       '</select><button class="btn primary" id="new-ap">Neuer Termin</button></div>' +
-      '<div class="tw"><table><thead><tr><th>Wann</th><th>Wer</th><th>Thema</th><th>Status</th><th></th></tr></thead><tbody>' + rows + '</tbody></table></div>';
+      '<div class="tw"><table><thead><tr><th>Wann</th><th>Wer</th><th>Angebot / Thema</th><th>Status</th><th></th></tr></thead><tbody>' + rows + '</tbody></table></div>';
     $('#apf').onchange = function () { apFilter = this.value; vTermine(); };
     $('#new-ap').onclick = function () { apDialog(); };
     $('#view').onclick = function (e) { var b = e.target.closest('button[data-a]'); if (b) apAction(b.dataset.a, b.dataset.id); };
@@ -128,13 +152,14 @@
     else if (act === 'cancel') { if (confirm('Termin wirklich absagen? Die Zeit wird auf der Website wieder frei.')) setStatus(a, 'abgesagt').catch(fail); }
     else if (act === 'mail') mailFor(a);
     else if (act === 'link') ensureCustomer(a).then(function () { toast('Als Kunde gespeichert.'); return refresh(); }).catch(fail);
-    else if (act === 'invoice') ensureCustomer(a).then(function () { return loadAll(); }).then(function () { invDialog({ customer_id: a.customer_id, appointment_id: a.id, text: 'Hypnose-Sitzung vom ' + fDate(a.starts_at).replace(/^\S+\s/, '') }); }).catch(fail);
+    else if (act === 'invoice') ensureCustomer(a).then(function () { return loadAll(); }).then(function () { invDialog({ customer_id: a.customer_id, appointment_id: a.id, text: (svcName(a.service) || 'Hypnosetherapie') + ' vom ' + fDate(a.starts_at).replace(/^\S+\s/, ''), price: svc(a.service) ? Number(svc(a.service).price) : undefined }); }).catch(fail);
   }
   function custOptions(sel) { return '<option value="">– Kunde wählen –</option>' + S.customers.map(function (c) { return '<option value="' + c.id + '"' + (c.id === sel ? ' selected' : '') + '>' + esc(cName(c)) + '</option>'; }).join(''); }
   function apDialog(pre) {
     pre = pre || {};
     dialog('<h2>Neuer Termin</h2><form id="f"><label for="a-c">Kunde</label><select id="a-c">' + custOptions(pre.customer_id) + '</select>' +
       '<p class="hint">Oder neuer Gast:</p><div class="row2"><div><label for="a-n">Name</label><input id="a-n"></div><div><label for="a-m">E-Mail</label><input id="a-m" type="email"></div></div>' +
+      '<label for="a-s">Angebot</label><select id="a-s">' + svcs().map(function (s) { return '<option value="' + esc(s.id) + '">' + esc(s.name) + ' (' + s.minutes + ' Min.)</option>'; }).join('') + '</select>' +
       '<div class="row2"><div><label for="a-d">Datum und Uhrzeit</label><input id="a-d" type="datetime-local" required></div><div><label for="a-t">Thema</label><input id="a-t"></div></div>' +
       '<label for="a-no">Notiz</label><input id="a-no"><div class="dlg-actions"><button class="btn primary" type="submit">Speichern</button><button class="btn ghost" type="button" data-close>Abbrechen</button></div></form>', function (d) {
       d.querySelector('[data-close]').onclick = closeDlg;
@@ -142,7 +167,7 @@
         e.preventDefault();
         var cid = $('#a-c').value || null, name = $('#a-n').value.trim();
         if (!cid && !name) { toast('Bitte Kunde wählen oder Namen eingeben.', true); return; }
-        var row = { starts_at: new Date($('#a-d').value).toISOString(), minutes: S.settings.session_minutes, status: 'bestaetigt', customer_id: cid, guest_name: cid ? '' : name, guest_email: cid ? '' : $('#a-m').value.trim(), topic: $('#a-t').value.trim(), note: $('#a-no').value.trim(), source: 'admin' };
+        var row = { starts_at: new Date($('#a-d').value).toISOString(), minutes: (svc($('#a-s').value) || {}).minutes || S.settings.session_minutes, service: $('#a-s').value, status: 'bestaetigt', customer_id: cid, guest_name: cid ? '' : name, guest_email: cid ? '' : $('#a-m').value.trim(), topic: $('#a-t').value.trim(), note: $('#a-no').value.trim(), source: 'admin' };
         sb.from('appointments').insert(row).then(function (r) { if (r.error) { toast(r.error.code === '23505' ? 'Diese Zeit ist schon vergeben.' : r.error.message, true); return; } closeDlg(); toast('Termin gespeichert.'); return refresh(); });
       };
     });
@@ -212,7 +237,7 @@
   }
   function invDialog(pre) {
     var today = new Date().toISOString().slice(0, 10);
-    var items = [{ text: pre.text || 'Hypnose-Sitzung', qty: 1, price: Number(S.settings.session_price) }];
+    var items = [{ text: pre.text || 'Hypnosetherapie', qty: 1, price: pre.price != null ? pre.price : Number(S.settings.session_price) }];
     dialog('<h2>Neue Rechnung</h2><form id="f"><label for="v-c">Kunde</label><select id="v-c" required>' + custOptions(pre.customer_id) + '</select>' +
       '<div class="row2"><div><label for="v-d">Rechnungsdatum</label><input id="v-d" type="date" value="' + today + '" required></div><div><label for="v-f">Zahlbar innert (Tage)</label><input id="v-f" type="number" min="0" value="' + S.settings.payment_days + '"></div></div>' +
       '<table class="items" style="border:0"><thead><tr><th>Leistung</th><th style="width:70px">Anz.</th><th style="width:110px">Preis CHF</th><th></th></tr></thead><tbody id="v-items"></tbody></table>' +
@@ -285,17 +310,27 @@
       '<div class="row2">' + f('s-ph', 'Telefon', s.phone) + f('s-em', 'E-Mail (Kontakt)', s.email, 'email') + '</div>' +
       '<h3 style="margin-top:24px">Rechnungen</h3><div class="row2">' + f('s-ib', 'IBAN für QR-Zahlteil', s.iban, 'text', 'placeholder="CH.. .... .... .... .... ."') + f('s-pd', 'Zahlbar innert (Tage)', s.payment_days, 'number', 'min="0"') + '</div>' +
       '<label for="s-no">Text unter der Rechnung</label><textarea id="s-no" style="min-height:70px">' + esc(s.invoice_note) + '</textarea>' +
+      '<h3 style="margin-top:24px">Angebote (erscheinen in der Buchung)</h3><div id="svc-rows"></div><button class="btn small ghost" type="button" id="svc-add">+ Angebot</button><p class="hint">Die Kennung (z. B. hypnose) nach dem Anlegen nicht mehr ändern. Bereits gebuchte Termine verweisen darauf.</p>' +
       '<h3 style="margin-top:24px">Sitzung und Buchung</h3><div class="row3">' + f('s-mi', 'Dauer (Min.)', s.session_minutes, 'number', 'min="15" step="5"') + f('s-pc', 'Preis CHF', s.session_price, 'number', 'min="0" step="0.05"') + '<div class="row2">' + f('s-ld', 'Vorlauf (Tage)', s.lead_days, 'number', 'min="0"') + f('s-bw', 'Wochen im Voraus', s.booking_weeks, 'number', 'min="1"') + '</div></div>' +
       '<h3 style="margin-top:24px">Sprechzeiten (Startzeiten pro Tag, getrennt mit Komma)</h3>' +
       DAYS.map(function (d) { return '<div class="row2"><label for="h' + d[0] + '" style="align-self:center">' + d[1] + '</label><input id="h' + d[0] + '" value="' + esc(((s.hours || {})[d[0]] || []).join(', ')) + '" placeholder="z. B. 13:00, 14:00"></div>'; }).join('') +
       '<div class="dlg-actions"><button class="btn primary" type="submit">Speichern</button></div></form>';
+    var svl = svcs().map(function (s) { return Object.assign({}, s); });
+    function drawSvc() {
+      $('#svc-rows').innerHTML = svl.map(function (s, i) { return '<div class="row3" style="grid-template-columns:1fr 2fr 1fr 1fr auto;gap:8px;align-items:end"><div><label>Kennung</label><input data-sk="id" data-i="' + i + '" value="' + esc(s.id) + '" pattern="[a-z0-9]+" title="nur Kleinbuchstaben und Zahlen"></div><div><label>Name</label><input data-sk="name" data-i="' + i + '" value="' + esc(s.name) + '"></div><div><label>Minuten</label><input type="number" min="15" step="5" data-sk="minutes" data-i="' + i + '" value="' + esc(s.minutes) + '"></div><div><label>Preis CHF</label><input type="number" min="0" step="0.05" data-sk="price" data-i="' + i + '" value="' + esc(s.price) + '"></div><button type="button" class="btn small danger" data-sr="' + i + '" aria-label="Angebot entfernen">×</button></div>'; }).join('');
+    }
+    drawSvc();
+    $('#svc-rows').oninput = function (e) { var t = e.target; if (t.dataset.sk) svl[t.dataset.i][t.dataset.sk] = (t.dataset.sk === 'minutes' || t.dataset.sk === 'price') ? Number(t.value) : t.value; };
+    $('#svc-rows').onclick = function (e) { var b = e.target.closest('[data-sr]'); if (b) { svl.splice(b.dataset.sr, 1); drawSvc(); } };
+    $('#svc-add').onclick = function () { svl.push({ id: 'neu' + (svl.length + 1), name: '', minutes: 60, price: 0 }); drawSvc(); };
     $('#f').onsubmit = function (e) {
       e.preventDefault(); var hours = {}, bad = false;
+      var ids = {}; for (var k = 0; k < svl.length; k++) { if (!/^[a-z0-9]+$/.test(svl[k].id) || !String(svl[k].name).trim() || ids[svl[k].id]) { toast('Jedes Angebot braucht eine eindeutige Kennung (a–z, 0–9) und einen Namen.', true); return; } ids[svl[k].id] = 1; }
       DAYS.forEach(function (d) { var v = $('#h' + d[0]).value.split(',').map(function (x) { return x.trim(); }).filter(Boolean); v.forEach(function (t) { if (!/^([01]\d|2[0-3]):[0-5]\d$/.test(t)) bad = true; }); if (v.length) hours[d[0]] = v; });
       if (bad) { toast('Zeiten bitte im Format 13:00 angeben.', true); return; }
       var iban = $('#s-ib').value.replace(/\s/g, '').toUpperCase();
       if (iban && !/^(CH|LI)\d{19}$/.test(iban)) { toast('Die IBAN muss mit CH oder LI beginnen und 21 Zeichen haben.', true); return; }
-      sb.from('settings').update({ practice: $('#s-pr').value.trim(), person: $('#s-pe').value.trim(), street: $('#s-st').value.trim(), zip: $('#s-zi').value.trim(), city: $('#s-ci').value.trim(), phone: $('#s-ph').value.trim(), email: $('#s-em').value.trim(), iban: iban, payment_days: Number($('#s-pd').value) || 0, invoice_note: $('#s-no').value, session_minutes: Number($('#s-mi').value) || 60, session_price: Number($('#s-pc').value) || 0, lead_days: Number($('#s-ld').value) || 0, booking_weeks: Number($('#s-bw').value) || 12, hours: hours }).eq('id', 1)
+      sb.from('settings').update({ practice: $('#s-pr').value.trim(), person: $('#s-pe').value.trim(), street: $('#s-st').value.trim(), zip: $('#s-zi').value.trim(), city: $('#s-ci').value.trim(), phone: $('#s-ph').value.trim(), email: $('#s-em').value.trim(), iban: iban, payment_days: Number($('#s-pd').value) || 0, invoice_note: $('#s-no').value, session_minutes: Number($('#s-mi').value) || 60, session_price: Number($('#s-pc').value) || 0, lead_days: Number($('#s-ld').value) || 0, booking_weeks: Number($('#s-bw').value) || 12, hours: hours, services: svl }).eq('id', 1)
         .then(function (r) { must(r); toast('Gespeichert.'); return refresh(); }).catch(fail);
     };
   }

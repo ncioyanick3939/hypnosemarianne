@@ -21,6 +21,24 @@
   var por = document.querySelector('[data-portrait]');
   if (por && C.portrait) { por.innerHTML = '<img src="' + C.portrait + '" alt="' + C.person + '" width="261" height="333">'; }
 
+  // ---- Angebote: Dauer, Preis, Auswahl ----
+  var svcList = C.services || [];
+  function fmtPrice(p){ return Number(p) === 0 ? 'kostenlos' : 'CHF ' + (Number(p) % 1 ? Number(p).toFixed(2) : Number(p) + '.-'); }
+  function fillServices(list){
+    svcList = list || svcList;
+    document.querySelectorAll('[data-svc]').forEach(function(el){
+      var s = svcList.filter(function(x){ return x.id === el.getAttribute('data-svc'); })[0]; if (!s) return;
+      el.textContent = el.getAttribute('data-f') === 'minutes' ? s.minutes + ' Min.' : fmtPrice(s.price);
+    });
+    var sel = document.getElementById('svc');
+    if (sel && svcList.length) {
+      var cur = sel.value || (location.search.match(/angebot=([a-z]+)/) || [])[1];
+      sel.innerHTML = svcList.map(function(s){ return '<option value="' + s.id + '">' + s.name + ' (' + s.minutes + ' Min., ' + fmtPrice(s.price) + ')</option>'; }).join('');
+      if (cur) sel.value = cur;
+    }
+  }
+  fillServices();
+
   // ---- Terminkalender (Wunschtermin) ----
   var grid = document.getElementById('cal-grid');
   var sbc = (C.supabaseUrl && C.supabaseAnonKey && window.supabase) ? window.supabase.createClient(C.supabaseUrl, C.supabaseAnonKey) : null;
@@ -78,7 +96,7 @@
       slotBox.querySelectorAll('.slot').forEach(function(x){ x.classList.remove('sel'); }); s.classList.add('sel');
       var p = sel.split('-'), dt = new Date(+p[0], +p[1] - 1, +p[2]), tt = s.getAttribute('data-t').split(':');
       slotIso = zdate(+p[0], +p[1], +p[2], +tt[0], +tt[1]).toISOString();
-      slotIn.value = WDL[dt.getDay()] + ', ' + p2(+p[2]) + '.' + p2(+p[1]) + '.' + p[0] + ', ' + s.getAttribute('data-t') + ' Uhr' + (C.sessionDuration ? ' (' + C.sessionDuration + ')' : '');
+      slotIn.value = WDL[dt.getDay()] + ', ' + p2(+p[2]) + '.' + p2(+p[1]) + '.' + p[0] + ', ' + s.getAttribute('data-t') + ' Uhr';
     });
     document.getElementById('cal-prev').addEventListener('click', function(){ view = new Date(view.getFullYear(), view.getMonth() - 1, 1); draw(); });
     document.getElementById('cal-next').addEventListener('click', function(){ view = new Date(view.getFullYear(), view.getMonth() + 1, 1); draw(); });
@@ -92,7 +110,7 @@
     }
     if (sbc) {
       sbc.rpc('public_config').then(function(r){
-        if (r.data) { hoursCfg = r.data.hours || hoursCfg; leadDays = r.data.lead_days; weeksCfg = r.data.weeks; view = null; setRange(); }
+        if (r.data) { if (r.data.services) fillServices(r.data.services); hoursCfg = r.data.hours || hoursCfg; leadDays = r.data.lead_days; weeksCfg = r.data.weeks; view = null; setRange(); }
         return loadTaken();
       }).then(function(){
         var n = document.getElementById('cal-note');
@@ -105,7 +123,7 @@
         function say(m, bad){ st.hidden = false; st.textContent = m; st.classList.toggle('bad', !!bad); }
         if (!slotIso) { say('Bitte wählen Sie zuerst einen Termin im Kalender.', true); return; }
         btn.disabled = true; say('Wird gesendet …');
-        sbc.rpc('book_slot', { p_start: slotIso, p_name: bf.elements.name.value, p_email: bf.elements.email.value, p_phone: bf.elements.telefon.value, p_topic: bf.elements.thema.value }).then(function(r){
+        sbc.rpc('book_slot', { p_start: slotIso, p_name: bf.elements.name.value, p_email: bf.elements.email.value, p_phone: bf.elements.telefon.value, p_topic: bf.elements.thema.value, p_service: bf.elements.angebot.value }).then(function(r){
           var d = r.data || {};
           if (!r.error && d.ok) { bf.reset(); slotIn.value = ''; slotIso = null; say(bf.getAttribute('data-thanks')); return loadTaken(); }
           var msg = { taken: 'Diese Zeit wurde gerade vergeben. Bitte wählen Sie eine andere.', closed: 'Diese Zeit ist nicht buchbar.', range: 'Dieser Tag ist nicht mehr buchbar.', email: 'Bitte prüfen Sie Ihre E-Mail-Adresse.', name: 'Bitte geben Sie Ihren Namen an.' }[d.error] || 'Das Senden hat nicht geklappt. Bitte versuchen Sie es nochmal oder rufen Sie an.';

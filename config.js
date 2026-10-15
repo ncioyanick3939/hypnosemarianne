@@ -24,6 +24,13 @@ var CONFIG = {
   sessionPrice:    "CHF 125.-",   // z. B. "CHF 150 pro Sitzung"
   cancellation:    "",   // z. B. "Kostenlose Absage bis 24 Stunden vorher"
 
+  // Angebote (Dauer in Minuten, Preis in CHF). Bei aktiver Datenbank gelten die Werte aus der Verwaltung.
+  services: [
+    { id: "hypnose", name: "Hypnosetherapie", minutes: 60, price: 125 },
+    { id: "coaching", name: "Coaching", minutes: 60, price: 110 },
+    { id: "erstgespraech", name: "Erstgespräch", minutes: 30, price: 0 }
+  ],
+
   // Datenbank (Supabase). Beide Werte aus Supabase > Project Settings > API. Der "anon"-Schlüssel ist öffentlich vorgesehen.
   supabaseUrl: "https://hdkhaxgqfjrvkblndepy.supabase.co",
   supabaseAnonKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhka2hheGdxZmpydmtibG5kZXB5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTIwNzc1NjEsImV4cCI6MjEwNzY1MzU2MX0.MqjBlxY-SSbE_bJ8Rnsx6TcSnzEvl2FHWP8Ih7Wgi4A",

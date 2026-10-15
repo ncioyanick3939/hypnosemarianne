@@ -29,7 +29,20 @@
     <label for="l-pw">Passwort</label>
     <input id="l-pw" type="password" autocomplete="current-password" required>
     <button class="btn primary" type="submit">Anmelden</button>
+    <p><a href="#" id="l-forgot">Passwort vergessen?</a></p>
     <p class="status" id="l-status" role="status"></p>
+  </form>
+</section>
+
+<section id="newpw" class="login" hidden>
+  <form id="newpw-form" class="card">
+    <h1>Neues Passwort</h1>
+    <label for="np-1">Neues Passwort (mindestens 10 Zeichen)</label>
+    <input id="np-1" type="password" autocomplete="new-password" required>
+    <label for="np-2">Wiederholen</label>
+    <input id="np-2" type="password" autocomplete="new-password" required>
+    <button class="btn primary" type="submit">Speichern</button>
+    <p class="status" id="np-status" role="status"></p>
   </form>
 </section>
 
