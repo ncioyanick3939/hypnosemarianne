@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Termin anfragen | Praxis Soleil</title>
+<meta name="description" content="Termin für Hypnose in Freiburg anfragen: Praxis Soleil, Marianne Kaeser, Kleinschönberg 109.">
+<meta name="theme-color" content="#fbf6ee">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<script src="config.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Nunito+Sans:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="site.css">
+</head>
+<body>
+<header>
+  <div class="wrap bar">
+    <a class="brand" href="index.html" aria-label="Praxis Soleil, Startseite"><svg viewBox="0 0 64 64" aria-hidden="true"><g class="rays" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"><path d="M32 4v8M32 52v8M4 32h8M52 32h8M12.2 12.2l5.6 5.6M46.2 46.2l5.6 5.6M12.2 51.8l5.6-5.6M46.2 17.8l5.6-5.6"/></g><circle cx="32" cy="32" r="13" fill="currentColor"/></svg><span><b data-c="practice">Praxis Soleil</b><small>Hypnose · Mentale Unterstützung</small></span></a>
+    <nav id="menue" aria-label="Hauptnavigation">
+      <button class="menu-close" type="button" aria-label="Menü schliessen"><svg viewBox="0 0 28 28" aria-hidden="true"><path d="M5 5l18 18M23 5L5 23"/></svg></button>
+      <ul><li><a href="index.html">Start</a></li><li><a href="hypnose.html">Hypnose</a></li><li><a href="ablauf.html">Ablauf</a></li><li><a href="ueber-mich.html">Über mich</a></li><li><a class="cta-link" href="termin.html" aria-current="page">Termin anfragen</a></li></ul>
+    </nav>
+    <button class="menu-btn" type="button" aria-label="Menü öffnen" aria-expanded="false" aria-controls="menue"><svg viewBox="0 0 28 28" aria-hidden="true"><path d="M4 8h20M4 14h20M4 20h20"/></svg></button>
+  </div>
+</header>
+<main>
+<div class="page-head"><svg class="deco" viewBox="0 0 300 300" aria-hidden="true"><circle cx="230" cy="190" r="120" fill="#d9902b" opacity=".12"/><circle cx="230" cy="190" r="78" fill="#d9902b" opacity=".18"/><circle cx="230" cy="190" r="44" fill="#d9902b" opacity=".45"/></svg><div class="wrap"><p class="kicker">Termin</p><h1>Termin anfragen</h1><p class="lead">Schreiben Sie mir kurz, worum es geht und wann es Ihnen passt. Ich melde mich bei Ihnen. Oder rufen Sie einfach an.</p></div></div>
+
+<section class="book"><svg class="evening" viewBox="0 0 400 400" aria-hidden="true"><circle cx="300" cy="300" r="190" fill="#d9902b" opacity=".07"/><circle cx="300" cy="300" r="130" fill="#d9902b" opacity=".09"/><circle cx="300" cy="300" r="70" fill="#d9902b" opacity=".16"/></svg>
+  <div class="wrap two">
+    <div>
+      <h2>So erreichen Sie mich</h2>
+      <div class="contact-data">
+        <p><b>Praxis</b><span data-c="practice">Praxis Soleil</span>, <span data-c="person">Marianne Kaeser</span></p>
+        <p><b>Adresse</b><span data-c="street">Kleinschönberg 109</span>, <span data-c="zipCity">1700 Freiburg</span></p>
+        <p><b>Telefon</b><a data-phone href="#">079 217 41 67</a></p>
+        <p><b>E-Mail</b><a data-email href="#">marianne.kaeser@bluewin.ch</a></p>
+      </div>
+      <p class="small-note">Wenn ich gerade in einem Gespräch bin, hinterlassen Sie gerne eine Nachricht. Ich rufe zurück.</p>
+    </div>
+    <form data-form data-subject="Terminanfrage Praxis Soleil" data-thanks="Danke für Ihre Anfrage. Ich melde mich so bald wie möglich bei Ihnen.">
+      <div><label for="nn">Name</label><input id="nn" name="name" autocomplete="name" required></div>
+      <div><label for="tel">Telefon</label><input id="tel" name="telefon" type="tel" autocomplete="tel" required></div>
+      <div class="full"><label for="em">E-Mail</label><input id="em" name="email" type="email" autocomplete="email" required></div>
+      <div class="full"><label for="art">Worum geht es?</label>
+        <select id="art" name="anliegen" required><option value="" disabled selected>Bitte wählen</option><option>Stress und Anspannung</option><option>Schlaf und Erholung</option><option>Ängste und Sorgen</option><option>Prüfungs- und Auftrittsangst</option><option>Selbstvertrauen und innere Stärke</option><option>Gewohnheiten und Ziele</option><option>Etwas anderes / ich bin unsicher</option></select></div>
+      <div class="full"><label for="wann">Wann passt es Ihnen? <span>(Tage, Zeiten)</span></label><input id="wann" name="wunschzeit"></div>
+      <div class="full"><label for="msg">Nachricht <span>(freiwillig)</span></label><textarea id="msg" name="nachricht"></textarea></div>
+      <div class="hp" aria-hidden="true"><label>Nicht ausfüllen<input name="_honey" tabindex="-1" autocomplete="off"></label></div>
+      <div class="full"><label class="check"><input type="checkbox" name="einwilligung" required> Ich bin einverstanden, dass meine Angaben zur Beantwortung der Anfrage verwendet werden.</label></div>
+      <button class="btn primary" type="submit">Anfrage senden</button>
+      <p class="hint">Bitte schreiben Sie keine sehr persönlichen oder medizinischen Details in dieses Formular.</p>
+      <p class="full hint status" role="status" hidden></p>
+    </form>
+  </div>
+</section>
+</main>
+<footer>
+  <div class="wrap foot-grid">
+    <div>
+      <p class="foot-brand"><span data-c="practice">Praxis Soleil</span></p>
+      <p>Hypnose und mentale Unterstützung in Freiburg</p>
+    </div>
+    <div>
+      <h4>Praxis</h4>
+      <p><span data-c="person">Marianne Kaeser</span><br><span data-c="street">Kleinschönberg 109</span><br><span data-c="zipCity">1700 Freiburg</span></p>
+    </div>
+    <div>
+      <h4>Kontakt</h4>
+      <p><a data-phone href="#">079 217 41 67</a><br><a data-email href="#">marianne.kaeser@bluewin.ch</a></p>
+    </div>
+    <div>
+      <h4>Seiten</h4>
+      <p><a href="hypnose.html">Hypnose</a><br><a href="ablauf.html">Ablauf und Fragen</a><br><a href="ueber-mich.html">Über mich</a><br><a href="termin.html">Termin anfragen</a></p>
+    </div>
+    <div class="copy"><span>© <span data-c="year">2026</span> <span data-c="practice">Praxis Soleil</span> · <span data-c="person">Marianne Kaeser</span></span><span class="links"><a href="impressum.html">Impressum</a><a href="datenschutz.html">Datenschutz</a></span></div>
+  </div>
+</footer>
+<script src="site.js"></script>
+</body>
+</html>
