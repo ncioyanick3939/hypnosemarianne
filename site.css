@@ -260,3 +260,8 @@ h1 em{color:#5f6e5a}
 .onedoc a[aria-disabled=true]{pointer-events:none;opacity:.55}
 
 .photo-band{height:clamp(240px,42vw,520px);background:#263D34 url(hero-sonne.jpg) center 40%/cover no-repeat}
+.pillars.four{grid-template-columns:repeat(4,1fr);gap:0 32px}.pillars.four h3{font-size:26px}
+@media(max-width:900px){.pillars.four{grid-template-columns:1fr 1fr;gap:30px 32px}}
+@media(max-width:560px){.pillars.four{grid-template-columns:1fr}}
+.checks{margin:16px 0;padding-left:1.2em}.checks li{margin:.35em 0}
+.hero h1{font-size:clamp(38px,4.6vw,60px)}
