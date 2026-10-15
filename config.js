@@ -13,5 +13,14 @@ var CONFIG = {
   // Leer = Testmodus, es wird nichts versendet.
   // Foto von Marianne: Datei in den Ordner legen und den Namen eintragen, z. B. "marianne.jpg". Leer = Sonnen-Bild.
   portrait: "",
-  formAction: ""
+  formAction: "",
+
+  // Online-Buchung (z. B. SimplyBook.me): Link zur Buchungsseite eintragen, z. B. "https://praxissoleil.simplybook.me/v2/".
+  // Leer = Seite "Termin buchen" zeigt die Terminanfrage statt der Online-Buchung.
+  bookingUrl: "",
+
+  // Rahmen einer Sitzung. Leer = es erscheint ein freundlicher Standardtext.
+  sessionDuration: "",   // z. B. "60 Minuten"
+  sessionPrice:    "",   // z. B. "CHF 150 pro Sitzung"
+  cancellation:    ""    // z. B. "Kostenlose Absage bis 24 Stunden vorher"
 };

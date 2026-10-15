@@ -1,8 +1,8 @@
 # Praxis Soleil
 
-Website der Praxis Soleil (Hypnose und mentale Unterstützung, Freiburg), mehrere Seiten:
-Start, Hypnose, Ablauf, Über mich, Termin, Impressum, Datenschutz.
+Website der Praxis Soleil (Hypnose bei Stress, innerer Unruhe und persönlicher Entwicklung, Freiburg).
+Seiten: Start, Hypnose, Angebot, Über die Praxis, Termin buchen, Kontakt, Impressum, Datenschutz.
 
-- `config.js`: Kontaktdaten, Foto und Formular-Adresse (hier ersetzen)
-- Texte stehen direkt in den jeweiligen `.html`-Dateien
-- Veröffentlichung: Settings → Pages → Branch `main`, Ordner `/ (root)`
+- `config.js`: Kontaktdaten, Foto, Preise, Formular-Adresse, Buchungs-Link (hier ersetzen)
+- Texte stehen direkt in den `.html`-Dateien
+- Was noch fehlt und wie die Buchung eingerichtet wird: `CHECKLISTE.md`

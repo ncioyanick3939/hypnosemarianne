@@ -7,6 +7,15 @@
   });
   document.querySelectorAll('[data-phone]').forEach(function(a){ a.textContent = C.phone; a.href = 'tel:' + C.phone.replace(/[^\d+]/g, '').replace(/^0/, '+41'); });
   document.querySelectorAll('[data-email]').forEach(function(a){ a.textContent = C.email; a.href = 'mailto:' + C.email; });
+  document.querySelectorAll('[data-opt]').forEach(function(el){ var v = C[el.getAttribute('data-opt')]; if (v) el.textContent = v; });
+  if (C.bookingUrl) {
+    var live = document.getElementById('booking-live'), soon = document.getElementById('booking-soon');
+    if (live && soon) {
+      document.getElementById('booking-frame').src = C.bookingUrl;
+      document.getElementById('booking-link').href = C.bookingUrl;
+      live.classList.remove('hide'); soon.classList.add('hide');
+    }
+  }
   var por = document.querySelector('[data-portrait]');
   if (por && C.portrait) { por.innerHTML = '<img src="' + C.portrait + '" alt="' + C.person + '" width="300" height="360">'; }
 
