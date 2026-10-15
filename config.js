@@ -24,6 +24,10 @@ var CONFIG = {
   sessionPrice:    "CHF 125.-",   // z. B. "CHF 150 pro Sitzung"
   cancellation:    "",   // z. B. "Kostenlose Absage bis 24 Stunden vorher"
 
+  // Datenbank (Supabase). Beide Werte aus Supabase > Project Settings > API. Der "anon"-Schlüssel ist öffentlich vorgesehen.
+  supabaseUrl: "",
+  supabaseAnonKey: "",
+
   // Link zum OneDoc-Profil von Marianne (leer = Button zeigt "Link folgt")
   onedocUrl: "",
 

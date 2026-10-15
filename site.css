@@ -258,3 +258,5 @@ h1 em{color:#5f6e5a}
 .onedoc{display:flex;flex-wrap:wrap;align-items:center;gap:16px 24px;background:#fff;border:1px solid #d9dccf;border-radius:16px;padding:16px 24px;margin-bottom:32px}
 .onedoc img{height:33px;width:auto}.onedoc p{margin:0;flex:1 1 220px}
 .onedoc a[aria-disabled=true]{pointer-events:none;opacity:.55}
+
+.photo-band{height:clamp(240px,42vw,520px);background:#263D34 url(hero-sonne.jpg) center 40%/cover no-repeat}

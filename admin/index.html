@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Praxis-Verwaltung | Praxis Soleil</title>
+<link rel="icon" href="../favicon.svg">
+<link rel="stylesheet" href="admin.css">
+</head>
+<body>
+<div id="app" hidden>
+  <header class="bar">
+    <strong class="brand">Praxis Soleil <span>Verwaltung</span></strong>
+    <nav id="tabs" aria-label="Bereiche">
+      <a href="#termine">Termine</a><a href="#kunden">Kunden</a><a href="#rechnungen">Rechnungen</a><a href="#einstellungen">Einstellungen</a>
+    </nav>
+    <button class="btn ghost small" id="logout" type="button">Abmelden</button>
+  </header>
+  <main id="view"></main>
+</div>
+
+<section id="login" class="login" hidden>
+  <form id="login-form" class="card">
+    <h1>Praxis-Login</h1>
+    <p class="hint">Nur für Marianne Kaeser.</p>
+    <label for="l-mail">E-Mail</label>
+    <input id="l-mail" type="email" autocomplete="username" required>
+    <label for="l-pw">Passwort</label>
+    <input id="l-pw" type="password" autocomplete="current-password" required>
+    <button class="btn primary" type="submit">Anmelden</button>
+    <p class="status" id="l-status" role="status"></p>
+  </form>
+</section>
+
+<section id="setup" class="login" hidden>
+  <div class="card">
+    <h1>Noch nicht verbunden</h1>
+    <p>In <code>config.js</code> fehlen <code>supabaseUrl</code> und <code>supabaseAnonKey</code>. Siehe <code>ANLEITUNG-Supabase.md</code>.</p>
+  </div>
+</section>
+
+<dialog id="dlg"></dialog>
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script src="../config.js"></script>
+<script src="../vendor/supabase.js"></script>
+<script src="../vendor/swissqrbill.js"></script>
+<script src="admin.js"></script>
+</body>
+</html>
