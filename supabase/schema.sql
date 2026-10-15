@@ -146,3 +146,5 @@ end $$;
 revoke all on function public_config(), taken_slots(timestamptz, timestamptz), book_slot(timestamptz,text,text,text,text), next_invoice_number() from public;
 grant execute on function public_config(), taken_slots(timestamptz, timestamptz), book_slot(timestamptz,text,text,text,text) to anon, authenticated;
 grant execute on function next_invoice_number() to authenticated;
+revoke execute on function next_invoice_number() from anon;
+grant select, insert, update, delete on settings, customers, appointments, invoices to authenticated;
