@@ -26,7 +26,7 @@ var CONFIG = {
 
   // Datenbank (Supabase). Beide Werte aus Supabase > Project Settings > API. Der "anon"-Schlüssel ist öffentlich vorgesehen.
   supabaseUrl: "https://hdkhaxgqfjrvkblndepy.supabase.co",
-  supabaseAnonKey: "",
+  supabaseAnonKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhka2hheGdxZmpydmtibG5kZXB5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTIwNzc1NjEsImV4cCI6MjEwNzY1MzU2MX0.MqjBlxY-SSbE_bJ8Rnsx6TcSnzEvl2FHWP8Ih7Wgi4A",
 
   // Link zum OneDoc-Profil von Marianne (leer = Button zeigt "Link folgt")
   onedocUrl: "",
