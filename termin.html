@@ -36,25 +36,32 @@
     </div>
     <div class="two" id="booking-soon">
       <div>
-        <h2>Terminanfrage</h2>
-        <p>Die Online-Buchung mit freien Zeitfenstern wird eingerichtet. Bis dahin schreiben Sie mir bitte kurz, wann es Ihnen passt, oder rufen Sie an. Ich melde mich bei Ihnen, um einen Termin zu vereinbaren.</p>
-        <p><a data-phone href="#">079 217 41 67</a></p>
+        <h2>1. Wunschtermin wählen</h2>
+        <p class="hint">Sprechzeiten: Freitagnachmittag und Samstagvormittag. Wählen Sie einen Tag und eine Zeit.</p>
+        <div class="cal" id="cal" aria-label="Terminkalender">
+          <div class="cal-head"><button type="button" class="cal-nav" id="cal-prev" aria-label="Voriger Monat">‹</button><strong id="cal-title"></strong><button type="button" class="cal-nav" id="cal-next" aria-label="Nächster Monat">›</button></div>
+          <div class="cal-grid" id="cal-grid" role="grid"></div>
+          <div class="cal-legend"><span><i class="lg on"></i>Sprechtag</span><span><i class="lg sel"></i>Gewählt</span></div>
+        </div>
+        <div id="cal-slots" class="slots" aria-live="polite"><p class="hint">Bitte wählen Sie einen markierten Tag.</p></div>
+        <p class="hint">Ihr Wunschtermin ist erst fix, wenn Marianne Kaeser ihn bestätigt. Bereits vergebene Zeiten sehen Sie hier noch nicht, sie schlägt Ihnen dann eine Alternative vor.</p>
         <dl class="frame">
   <div><dt>Dauer</dt><dd data-opt="sessionDuration">Wird im Kennenlerngespräch persönlich besprochen.</dd></div>
   <div><dt>Preis</dt><dd data-opt="sessionPrice">Nenne ich Ihnen gerne vor dem ersten Termin.</dd></div>
   <div><dt>Absage</dt><dd data-opt="cancellation">Bitte sagen Sie einen Termin rechtzeitig ab, wenn Sie ihn nicht wahrnehmen können.</dd></div>
 </dl>
       </div>
-      <form data-form data-subject="Terminanfrage Praxis Soleil" data-thanks="Danke für Ihre Anfrage. Ich melde mich so bald wie möglich bei Ihnen.">
+      <form data-form data-subject="Terminanfrage Praxis Soleil" data-thanks="Danke für Ihre Anfrage. Ich bestätige Ihren Termin so bald wie möglich per E-Mail oder Telefon.">
+        <h2 class="full">2. Ihre Angaben</h2>
+        <div class="full"><label for="slot">Gewählter Termin</label><input id="slot" name="wunschtermin" readonly required placeholder="Bitte links wählen"></div>
         <div><label for="nn">Name</label><input id="nn" name="name" autocomplete="name" required></div>
         <div><label for="tel">Telefon</label><input id="tel" name="telefon" type="tel" autocomplete="tel" required></div>
         <div class="full"><label for="em">E-Mail</label><input id="em" name="email" type="email" autocomplete="email" required></div>
         <div class="full"><label for="art">Worum geht es?</label>
           <select id="art" name="thema" required><option value="" disabled selected>Bitte wählen</option><option>Stress</option><option>Innere Unruhe</option><option>Persönliche Entwicklung</option><option>Ich bin unsicher</option></select></div>
-        <div class="full"><label for="wann">Wann passt es Ihnen? <span>(Tage, Zeiten)</span></label><input id="wann" name="wunschzeit"></div>
         <div class="hp" aria-hidden="true"><label>Nicht ausfüllen<input name="_honey" tabindex="-1" autocomplete="off"></label></div>
         <div class="full"><label class="check"><input type="checkbox" name="einwilligung" required> Ich bin einverstanden, dass meine Angaben zur Beantwortung der Anfrage verwendet werden.</label></div>
-        <button class="btn primary" type="submit">Anfrage senden</button>
+        <button class="btn primary" type="submit">Termin anfragen</button>
         <p class="hint">Bitte schreiben Sie keine Gesundheitsdetails in dieses Formular.</p>
         <p class="full hint status" role="status" hidden></p>
       </form>

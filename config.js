@@ -22,5 +22,10 @@ var CONFIG = {
   // Rahmen einer Sitzung. Leer = es erscheint ein freundlicher Standardtext.
   sessionDuration: "60 Minuten",   // z. B. "60 Minuten"
   sessionPrice:    "CHF 125.-",   // z. B. "CHF 150 pro Sitzung"
-  cancellation:    ""    // z. B. "Kostenlose Absage bis 24 Stunden vorher"
+  cancellation:    "",   // z. B. "Kostenlose Absage bis 24 Stunden vorher"
+
+  // Sprechzeiten für den Kalender: Wochentag (0=So … 5=Fr, 6=Sa) -> Startzeiten (je 60 Min.)
+  hours: { 5: ["13:00","14:00","15:00","16:00"], 6: ["08:00","09:00","10:00","11:00"] },
+  bookingWeeks: 12,   // so weit im Voraus anzeigen
+  leadDays: 2         // frühestens in x Tagen
 };
