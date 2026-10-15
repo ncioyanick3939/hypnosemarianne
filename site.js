@@ -17,7 +17,7 @@
     }
   }
   var por = document.querySelector('[data-portrait]');
-  if (por && C.portrait) { por.innerHTML = '<img src="' + C.portrait + '" alt="' + C.person + '" width="300" height="360">'; }
+  if (por && C.portrait) { por.innerHTML = '<img src="' + C.portrait + '" alt="' + C.person + '" width="261" height="333">'; }
 
   var b = document.body, open = document.querySelector('.menu-btn'), nav = document.getElementById('menue');
   function setMenu(v){ b.classList.toggle('menu-open', v); open.setAttribute('aria-expanded', v ? 'true' : 'false'); }

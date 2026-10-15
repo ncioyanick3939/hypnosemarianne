@@ -1,9 +1,7 @@
 # Praxis Soleil: Was noch fehlt und wie es weitergeht
 
 ## Angaben, die Marianne ergänzen muss
-- [ ] Schreibweise des Namens bestätigen (Lebenslauf: «Kaeser»)
-- [ ] Foto von Marianne (Datei ins Repo legen, Name in `config.js` bei `portrait`)
-- [ ] Sitzungsdauer, Preis und Absage-Regel (`config.js`: `sessionDuration`, `sessionPrice`, `cancellation`)
+- [ ] Absage-Regel (`config.js`: `cancellation`) — Dauer (60 Min.) und Preis (CHF 125.-) sind eingetragen
 - [ ] Impressum (Anbieterinformationen) und Datenschutzerklärung (Texte rechtlich prüfen lassen)
 - [ ] Texte gegenlesen, besonders die Angebote und die Fragen
 
