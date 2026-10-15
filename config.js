@@ -25,7 +25,7 @@ var CONFIG = {
   cancellation:    "",   // z. B. "Kostenlose Absage bis 24 Stunden vorher"
 
   // Datenbank (Supabase). Beide Werte aus Supabase > Project Settings > API. Der "anon"-Schlüssel ist öffentlich vorgesehen.
-  supabaseUrl: "",
+  supabaseUrl: "https://hdkhaxgqfjrvkblndepy.supabase.co",
   supabaseAnonKey: "",
 
   // Link zum OneDoc-Profil von Marianne (leer = Button zeigt "Link folgt")
